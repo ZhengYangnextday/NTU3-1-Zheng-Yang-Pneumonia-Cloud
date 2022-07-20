@@ -32,7 +32,6 @@ def init():
         image = np.asarray(image, dtype="float64") #need to transfer to np to reshape'
         image = image/255
         image = image.reshape(1, image.shape[0], image.shape[1], image.shape[2]) #rgb to reshape to 1,100,100,3
-        image = image[:,:,:,::-1]
         pred= dict[model.predict(image).argmax()]
         return(render_template("index.html", result=str(pred)))
     else:
