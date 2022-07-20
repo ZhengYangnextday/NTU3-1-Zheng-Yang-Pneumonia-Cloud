@@ -17,11 +17,6 @@ def init():
         file.save("./static/"+filename) #Heroku no need static
         file = open("./static/"+filename,"r") #Heroku no need static
         model = load_model("Pneumonia")
-        
-        #image = cv2.imread("./static/"+filename,cv2.IMREAD_COLOR)
-        #image = cv2.resize(image,(100,100))
-        #image = image.astype('float64')/255
-        #image = image.reshape(1, image.shape[0], image.shape[1], image.shape[2])
         image = Image.open("./static/"+filename)#读取方式为RGB
         image = image.convert("RGB")                   # 图片转为RGB格式
         image = np.array(image)[:, :, ::-1]            # 将图片转为numpy格式，并将最后一维通道倒序
@@ -30,7 +25,6 @@ def init():
         image = np.asarray(image)
         image.resize((100,100,3),refcheck = False)
         image = np.asarray(image, dtype="float64") #need to transfer to np to reshape'
-        image = image/255
         image = image.reshape(1, image.shape[0], image.shape[1], image.shape[2]) #rgb to reshape to 1,100,100,3
         pred= dict[model.predict(image).argmax()]
         return(render_template("index.html", result=str(pred)))
