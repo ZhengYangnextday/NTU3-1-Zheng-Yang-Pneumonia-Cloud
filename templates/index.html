@@ -1,8 +1,10 @@
 <html>
+<body>
 <h1>Please upload the file to check for Pneumonia</h1>
-<form method="post" action = "/" enctype="multipart/form-data">
-  <input type="file" name="file">
-  <input type="submit" value="Upload">
-</form>
-{{result}}
+    <form method="POST" action = "/" enctype="multipart/form-data">
+      <input type="file" name="file">
+      <input type="submit" value="Upload">
+    </form>
+<p> The image is predicted to be {{result}}.
+</body>
 </html>
