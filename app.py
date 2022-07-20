@@ -24,6 +24,7 @@ def init():
         #转化为BGR格式
         image = np.asarray(image)
         image.resize((100,100,3),refcheck = False)
+        image = image/255
         image = np.asarray(image, dtype="float64") #need to transfer to np to reshape'
         image = image.reshape(1, image.shape[0], image.shape[1], image.shape[2]) #rgb to reshape to 1,100,100,3
         pred= dict[model.predict(image).argmax()]
