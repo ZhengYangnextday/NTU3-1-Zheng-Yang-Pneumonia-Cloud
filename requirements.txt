@@ -51,4 +51,3 @@ wrapt==1.13.3
 zipp==3.7.0
 pillow==9.0
 tensorflow-cpu
-opencv-python==4.5.5.64
