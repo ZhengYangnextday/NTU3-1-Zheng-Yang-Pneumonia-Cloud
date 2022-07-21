@@ -3,10 +3,6 @@ from werkzeug.utils import secure_filename
 from keras.models import load_model
 from PIL import Image #use PIL
 import numpy as np
-
-app = Flask(__name__)
-
-@app.route('/', methods=['GET', 'POST'])
 def bilinear_interpolation(img,out_dim):
     src_h, src_w, channel = img.shape
     dst_h, dst_w = out_dim[1], out_dim[0]
@@ -39,6 +35,9 @@ def bilinear_interpolation(img,out_dim):
                 temp1 = (src_x1 - src_x) * img[src_y1,src_x0,i] + (src_x - src_x0) * img[src_y1,src_x1,i]
                 dst_img[dst_y,dst_x,i] = int(round((src_y1 - src_y) * temp0 + (src_y - src_y0) * temp1)) #这里改为四舍五入取整
     return dst_img
+app = Flask(__name__)
+
+@app.route('/', methods=['GET', 'POST'])
 def init():
     if request.method == 'POST':
         file = request.files['file']
