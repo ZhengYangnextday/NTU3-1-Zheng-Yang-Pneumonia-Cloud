@@ -4,14 +4,24 @@ from keras.models import load_model
 from PIL import Image #use PIL
 import numpy as np
 def NN_interpolation(img,dstH,dstW):
-    scrH,scrW,_=img.shape
-    retimg=np.zeros((dstH,dstW,3),dtype=np.uint8)
-    for k in range(3):
-        for i in range(dstH-1):
-            for j in range(dstW-1):
-                scrx = int(i*(scrH/dstH))
-                scry = int(j*(scrW/dstW))
-                retimg[i,j,k]=img[scrx,scry,k]
+    if img.ndim == 3:
+        scrH,scrW,_ = img.shape
+        retimg=np.zeros((dstH,dstW,3),dtype=np.uint8)
+        for k in range(3):
+            for i in range(dstH-1):
+                for j in range(dstW-1):
+                    scrx = int(i*(scrH/dstH))
+                    scry = int(j*(scrW/dstW))
+                    retimg[i,j,k]=img[scrx,scry,k]  
+    elif img.ndim == 4:
+        _,scrH,scrW,_ = img.shape
+        retimg=np.zeros((dstH,dstW,3),dtype=np.uint8)
+        for k in range(3):
+            for i in range(dstH-1):
+                for j in range(dstW-1):
+                    scrx = int(i*(scrH/dstH))
+                    scry = int(j*(scrW/dstW))
+                    retimg[i,j,k]=img[1,scrx,scry,k]    
     return retimg
 def bilinear_interpolation(img,out_dim):
     src_h, src_w, channel = img.shape
@@ -63,7 +73,7 @@ def init():
         #image = np.array(image)[:, :, ::-1]            # 将图片转为numpy格式，并将最后一维通道倒序
         #image = Image.fromarray(np.uint8(image))       # 将numpy转换回PIL的Image对象#这里不要，datagenerator本身即为rgb读取
         #转化为BGR格式
-        #image = np.asarray(image)
+        image = np.asarray(image)
         #image.resize((100,100,3),refcheck = False)
         image = NN_interpolation(image,100,100)#要采用邻近插值
         image = np.asarray(image, dtype="float64")/255 #need to transfer to np to reshape'
